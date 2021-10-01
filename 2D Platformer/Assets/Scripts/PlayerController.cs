@@ -10,39 +10,82 @@ public class PlayerController : MonoBehaviour
         int idMove = 0;
         Animator anim;
 
+    public GameObject Projectile; // object peluru
+    public Vector2 projectileVelocity; // kecepatan peluru
+    public Vector2 projectileOffset; // jarak posisi peluru dari posisi player
+    public float cooldown = 0.5f; // jeda waktu untuk menembak
+    bool isCanShoot = true; // memastikan untuk kapan dapat menembak
+
     // Start is called before the first frame update
     private void Start()
  {
  anim = GetComponent<Animator>();
+ isCanShoot = false;
  }
 
  // Update is called once per frame
  void Update()
  {
  //Debug.Log("Jump "+isJump);
- if (Input.GetKeyDown(KeyCode.LeftArrow))
- {
- MoveLeft();
+    if (Input.GetKeyDown(KeyCode.LeftArrow))
+     {
+        MoveLeft();
+    }
+    if (Input.GetKeyDown(KeyCode.RightArrow))
+    {
+        MoveRight();
+    }
+    if (Input.GetKeyDown(KeyCode.Space))
+    {
+        Jump();
+    }
+    if (Input.GetKeyUp(KeyCode.RightArrow))
+    {
+        Idle();
+    }
+    if (Input.GetKeyUp(KeyCode.LeftArrow))
+    {
+    Idle();
+    }
+    if (Input.GetKeyDown(KeyCode.Z))
+    {
+        Fire();
+    }
+    Move();
+    Dead();
  }
- if (Input.GetKeyDown(KeyCode.RightArrow))
- {
- MoveRight();
+
+void Fire()
+{
+    // jika karakter dapat menembak
+    if (isCanShoot)
+    {
+        //Membuat projectile baru
+        GameObject bullet = Instantiate(Projectile, (Vector2)transform.position - projectileOffset * transform.localScale.x, Quaternion.identity);
+
+         // mengatur kecepatan dari projectile
+        Vector2 velocity = new Vector2(projectileVelocity.x * transform.localScale.x, projectileVelocity.y);
+        bullet.GetComponent<Rigidbody2D>().velocity = velocity * -1;
+
+        //Menyesuaikan scale dari projectile dengan scale karakter
+        Vector3 scale = transform.localScale;
+        bullet.transform.localScale = scale * -1;
+
+        StartCoroutine(CanShoot());
+        anim.SetTrigger("shoot");
+    }
 }
- if (Input.GetKeyDown(KeyCode.Space))
- {
-    Jump();
- }
- if (Input.GetKeyUp(KeyCode.RightArrow))
- {
-Idle();
+
+
+
+
+IEnumerator CanShoot()
+{
+anim.SetTrigger("shoot");
+isCanShoot = false;
+yield return new WaitForSeconds(cooldown);
+isCanShoot = true;
 }
- if (Input.GetKeyUp(KeyCode.LeftArrow))
- {
- Idle();
- }
- Move();
- Dead();
- }
 
  private void OnCollisionStay2D(Collision2D collision)
  {
@@ -99,7 +142,20 @@ transform.localScale = new Vector3(1f, 1f, 1f);
  {
  // Kondisi ketika Loncat
  gameObject.GetComponent<Rigidbody2D>().AddForce
-(Vector2.up * 300f);
+(Vector2.up * 350f);
+ }
+ }
+
+private void OnCollisionEnter2D(Collision2D collisioon)
+{
+if (collisioon.transform.tag.Equals("Peluru"))
+{
+isCanShoot = true;
+}
+if (collisioon.transform.tag.Equals("Enemy"))
+{
+//SceneManager.LoadScene("Game Over");
+isDead = true;
  }
  }
 
@@ -107,7 +163,7 @@ transform.localScale = new Vector3(1f, 1f, 1f);
  {
  if (collision.transform.tag.Equals("Coin"))
  {
- //Data.score += 15;
+ Data.score += 15;
  Destroy(collision.gameObject);
  }
  }
