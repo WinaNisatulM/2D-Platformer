@@ -1382,7 +1382,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Mata
+    path: Badan
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1392,7 +1392,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Mata
+    path: Badan
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1402,7 +1402,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Mata
+    path: Badan
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1442,7 +1442,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Badan
+    path: Mata
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1452,7 +1452,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Badan
+    path: Mata
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -1462,7 +1462,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Badan
+    path: Mata
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0

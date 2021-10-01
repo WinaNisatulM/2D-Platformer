@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyController : MonoBehaviour
 {
@@ -17,29 +18,7 @@ public class EnemyController : MonoBehaviour
     public static int EnemyKilled = 0;
 
 
-    void OnCollisionEnter2D (Collision2D col)
-    {
-        if (col.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-    }
-
-    void OnCollisionStay2D (Collision2D col)
-    {
-        if (col.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }    
-    }
-
-    void OnCollisionExit2D (Collision2D col)
-    {
-        if (col.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
-    }
+   
     
     void Start()
     {
@@ -64,23 +43,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void TakeDamage(int damage)
-     {
-         HP -= damage;
-         if (HP <= 0)
-            {
-            isDie = true;
-            rigid.velocity = Vector2.zero;
-            anim.SetBool("IsDie", true);
-            Destroy(this.gameObject, 2);
-            Data.score += 20;
-            EnemyKilled++;
-            if (EnemyKilled == 3)
-                {
-                    SceneManager.LoadScene("Game Over");
-                }
-            }
-        }
+    
 
     void MoveRight()
     {
@@ -98,7 +61,7 @@ public class EnemyController : MonoBehaviour
         pos.x -= speed * Time.deltaTime;
         transform.position = pos;
         if (isFacingRight)
-         {
+        {
         Flip();
         }
     }
@@ -109,4 +72,47 @@ public class EnemyController : MonoBehaviour
         transform.localScale = theScale;
         isFacingRight = !isFacingRight;
     }
+    void OnCollisionEnter2D (Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
+    void OnCollisionStay2D (Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }    
+    }
+
+    void OnCollisionExit2D (Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
+    }
+
+    void TakeDamage(int damage)
+     {
+         HP -= damage;
+         if (HP <= 0)
+            {
+            isDie = true;
+            rigid.velocity = Vector2.zero;
+            anim.SetBool("isDie", true);
+            Destroy(this.gameObject, 2);
+            Data.score += 20;
+            EnemyKilled++;
+            if (EnemyKilled == 3)
+                {
+                    //SceneManager.LoadScene("Game Over");
+                }
+            }
+        }
+
+
 }

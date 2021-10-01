@@ -141,8 +141,7 @@ transform.localScale = new Vector3(1f, 1f, 1f);
  if (!isJump)
  {
  // Kondisi ketika Loncat
- gameObject.GetComponent<Rigidbody2D>().AddForce
-(Vector2.up * 350f);
+ gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 350f);
  }
  }
 
@@ -154,9 +153,9 @@ isCanShoot = true;
 }
 if (collisioon.transform.tag.Equals("Enemy"))
 {
-//SceneManager.LoadScene("Game Over");
-isDead = true;
- }
+    SceneManager.LoadScene("GameOver");
+    isDead = true;
+}
  }
 
  private void OnTriggerEnter2D(Collider2D collision)
@@ -188,6 +187,7 @@ isDead = true;
  {
  // kondisi ketika jatuh
  isDead = true;
+ SceneManager.LoadScene("GameOver");
             }
         }
     }
